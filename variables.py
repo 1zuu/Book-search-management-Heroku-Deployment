@@ -8,7 +8,8 @@ model_weights = 'weights/feature_model_weights.h5'
 tflite_weights = 'weights/feature_model_weights.tflite'
 encoder_path = 'weights/label_encoder.pickle'
 tokenizer_weights = 'weights/tokenizer.pickle'
-data_path = 'weights/books.csv'
+data_path = 'weights/books_V3.csv'
+json_dir = 'weights/prices/'
 
 seed = 42
 heroku_url = 'https://book-search-management.herokuapp.com/books'
@@ -25,11 +26,4 @@ rate = 0.2
 learning_rate = 0.001
 
 test_size = 0.25
-
 n_matches = 5
-n_book_stores = 10
-websites = [
-    'amazon_link', 'ebay_link', 'BetterWorldBooks', 
-    'Bernes & Nobel', 'target.com', 'AbeBooks.com',
-    'alibris.com', 'strandbooks.com', 'Magers&Quinn.com', 
-    'thriftbooks']

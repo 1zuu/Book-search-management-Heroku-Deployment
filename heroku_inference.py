@@ -10,8 +10,9 @@ warnings.simplefilter("ignore", DeprecationWarning)
 
 class BSM_Heroku_Inference(object):
     def __init__(self):
-        df_response = get_Data()
+        df_response, prices = get_Data()
         self.df_response = df_response
+        self.prices = prices
 
     def TFinterpreter(self):
         # Load the TFLite model and allocate tensors.
@@ -52,7 +53,7 @@ class BSM_Heroku_Inference(object):
         return category, feature
         
     def predict_features(self, category):
-        df_response = load_category_df(self.df_response, category)
+        df_response, price_response = load_category_df(self.df_response, self.prices, category)
         df_response = df_response.reset_index(drop=True)
         category_descriptions = df_response['Description'].values
         processed_descriptions = preprocessed_data(category_descriptions)
@@ -60,16 +61,17 @@ class BSM_Heroku_Inference(object):
         features = np.array(
                     [self.TFliteInference(prediction_data(x).reshape(1,max_length).astype(np.float32))[1] for x in processed_descriptions])
 
-        return features, df_response
+        return features, df_response, price_response
 
     def predict_book(self,request):
         description = request['description']
         category, pred_feature = self.predict_category(description)
-        features, df_response = self.predict_features(category)
+        features, df_response, price_response = self.predict_features(category)
         cos_sim = {i:float(cosine_similarity(pred_feature, feature).squeeze()) for i,feature in enumerate(features)}
         cos_sim = dict(sorted(cos_sim.items(), key=lambda item: item[1], reverse=True))
         top_matches = list(cos_sim.keys())[:n_matches]
         df_top_match = df_response.iloc[top_matches]
+        price_top_match = price_response[top_matches]
 
         df_top_match = df_top_match[['Book_title' ,'Author' ,'ISBN-10' ,'ISBN-13', 'Cover_link']]
         
@@ -86,6 +88,7 @@ class BSM_Heroku_Inference(object):
             book['isbn 10'] = df_top_match.iloc[i]['ISBN-10']
             book['isbn 13'] = df_top_match.iloc[i]['ISBN-13']
             book['cover photo'] = df_top_match.iloc[i]['Cover_link']
+            book['websites'] = reform_prices(price_top_match[i])
             books['book {}'.format(i+1)] = book
         response['books'] = books
         return response

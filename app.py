@@ -8,7 +8,7 @@ app = Flask(__name__)
 model = BSM_Heroku_Inference()
 model.run()
 
-@app.route("/books", methods=["POST"])
+@app.route("/books", methods=['GET','POST'])
 def predictions():
     try:
         book_description = request.get_json()

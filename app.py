@@ -1,5 +1,5 @@
 from heroku_inference import BSM_Heroku_Inference
-from flask import Flask, Response, request
+from flask import Flask, Response, request, jsonify
 from variables import*
 
 app = Flask(__name__)
@@ -11,17 +11,14 @@ model.run()
 @app.route("/books", methods=['GET','POST'])
 def predictions():
     try:
-        book_description = request.get_json()
+        book_description = request.get_json(force=True)
         response = model.predict_book(book_description)
-        # return Response(
-        #             response=response, 
-        #             status=500, 
-        #             mimetype="application/json"
-        #             )
-        return response
+        return jsonify(response)
 
     except Exception as e:
+        print('*************************************************************************************************')
         print(e)
+        print('*************************************************************************************************')
 
 if __name__ == '__main__':
     app.run(debug=True, host=heroku_url, port=heroku_port, threaded=False, use_reloader=False)

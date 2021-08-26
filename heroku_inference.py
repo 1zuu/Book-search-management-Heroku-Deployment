@@ -89,7 +89,7 @@ class BSM_Heroku_Inference(object):
             book['cover photo'] = df_top_match.iloc[i]['Cover_link']
             books['book {}'.format(i+1)] = book
         response['books'] = books
-        return json.dumps(response)
+        return response
 
     def run(self):
         self.TFinterpreter()

@@ -1,11 +1,11 @@
-from model import BSM_Model
+from heroku_inference import BSM_Heroku_Inference
 from flask import Flask, Response, request
 from variables import*
 
 app = Flask(__name__)
 
 
-model = BSM_Model()
+model = BSM_Heroku_Inference()
 model.run()
 
 @app.route("/books", methods=["POST"])

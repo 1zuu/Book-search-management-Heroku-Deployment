@@ -7,7 +7,6 @@ os.environ['TF_CPP_MIN_LOG_LEVEL'] = '3'
 import pickle
 import numpy as np
 import pandas as pd
-from pymongo import MongoClient
 from nltk.corpus import stopwords
 
 from nltk.stem import WordNetLemmatizer
@@ -64,38 +63,13 @@ def preprocessed_data(descriptions):
 
     return np.array(updated_descriptions)
 
-def connect_mongo():
-    client = MongoClient(db_url)
-    db = client[database]
-    return db
-
-def create_database():
-
-    db = connect_mongo()
-    if db_collection not in db.list_collection_names():
-        coll = db[db_collection]
-        data = pd.read_csv(data_path)
-        data = data.dropna(axis=0)
-        payload = json.loads(data.to_json(orient='records'))
-        coll.remove()
-        coll.insert(payload)
-        print('Database created')
-
-def read_mongo():
-    db = connect_mongo()
-    cursor = db[db_collection].find({})
-    df =  pd.DataFrame(list(cursor))
-    del df['_id']
-
-    return df
-
 def get_Data():
     '''
         Get data from database
     '''
-    create_database()
+    # create_database()
 
-    df = read_mongo()
+    df = pd.read_csv('books.csv')
     df_response = df[['Category', 'Description', 'Book_title' ,'Author' ,'ISBN-10' ,'ISBN-13', 'Cover_link']] 
     return df_response
 

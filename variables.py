@@ -12,18 +12,8 @@ wordcloud_path = 'data/wordcloud.png'
 data_path = 'data/books_V2.csv'
 
 seed = 42
-host = '127.0.0.1'
-port = 27017
-database = 'BSMS'
-db_collection = 'books'
-live_collection = 'live_books'
-username = 'root'
-password = 'root'
-# db_url = 'mongodb://{}:{}@{}:{}/{}?authSource=admin'.format(username, password, host, port, database)
-db_url = "mongodb://localhost:27017/"
 heroku_url = 'https://book-search-management.herokuapp.com/books'
 heroku_port = 5000
-heroku_host = '0.0.0.0'
 embedding_dim = 150
 num_epochs = 20
 batch_size = 32

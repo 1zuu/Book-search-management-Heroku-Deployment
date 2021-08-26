@@ -8,8 +8,7 @@ model_weights = 'weights/feature_model_weights.h5'
 tflite_weights = 'weights/feature_model_weights.tflite'
 encoder_path = 'weights/label_encoder.pickle'
 tokenizer_weights = 'weights/tokenizer.pickle'
-wordcloud_path = 'data/wordcloud.png'
-data_path = 'data/books_V2.csv'
+data_path = 'weights/books.csv'
 
 seed = 42
 heroku_url = 'https://book-search-management.herokuapp.com/books'

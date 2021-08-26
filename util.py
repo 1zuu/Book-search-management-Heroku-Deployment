@@ -69,7 +69,7 @@ def get_Data():
     '''
     # create_database()
 
-    df = pd.read_csv('books.csv')
+    df = pd.read_csv(data_path)
     df_response = df[['Category', 'Description', 'Book_title' ,'Author' ,'ISBN-10' ,'ISBN-13', 'Cover_link']] 
     return df_response
 

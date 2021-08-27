@@ -4,12 +4,12 @@ padding = 'post'
 pad_token = '<pad>'
 oov_tok = "<oov>"
 
-model_weights = 'weights/feature_model_weights.h5'
-tflite_weights = 'weights/feature_model_weights.tflite'
-encoder_path = 'weights/label_encoder.pickle'
-tokenizer_weights = 'weights/tokenizer.pickle'
-data_path = 'weights/books_V3.csv'
-json_dir = 'weights/prices/'
+model_weights = 'data/feature_model_weights.h5'
+tflite_weights = 'data/feature_model_weights.tflite'
+encoder_path = 'data/label_encoder.pickle'
+tokenizer_weights = 'data/tokenizer.pickle'
+data_path = 'data/books.csv'
+json_dir = 'data/prices/'
 
 seed = 42
 heroku_url = 'https://book-search-management.herokuapp.com/books'

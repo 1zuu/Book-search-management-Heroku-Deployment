@@ -83,11 +83,11 @@ class BSM_Heroku_Inference(object):
 
         for i in range(n_matches):
             book = {}
-            book['title'] = df_top_match.iloc[i]['Book_title']
-            book['author'] = df_top_match.iloc[i]['Author']
-            book['isbn_10'] = df_top_match.iloc[i]['ISBN-10']
-            book['isbn_13'] = df_top_match.iloc[i]['ISBN-13']
-            book['cover_photo'] = df_top_match.iloc[i]['Cover_link']
+            book['title'] = df_top_match.iloc[i]['Book_title'] if df_top_match.iloc[i]['Book_title'] else None
+            book['author'] = df_top_match.iloc[i]['Author'] if df_top_match.iloc[i]['Author'] else None
+            book['isbn_10'] = df_top_match.iloc[i]['ISBN-10'] if df_top_match.iloc[i]['ISBN-10'] else None
+            book['isbn_13'] = df_top_match.iloc[i]['ISBN-13'] if df_top_match.iloc[i]['ISBN-13'] else None
+            book['cover_photo'] = df_top_match.iloc[i]['Cover_link'] if df_top_match.iloc[i]['Cover_link'] else None
             book['websites'] = reform_prices(price_top_match[i])
             books['{}'.format(i+1)] = book
         response['books'] = books

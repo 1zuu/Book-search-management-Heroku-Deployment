@@ -80,6 +80,7 @@ class BSM_Heroku_Inference(object):
         books = {}
 
         response['category'] = category
+        response['type'] = "book"
 
         for i in range(n_matches):
             book = {}

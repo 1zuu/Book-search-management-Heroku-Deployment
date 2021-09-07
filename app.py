@@ -5,8 +5,7 @@ from heroku_inference import BSM_Heroku_Inference
 from variables import*
 
 app = Flask(__name__)
-cors = CORS(app)
-app.config['CORS_HEADERS'] = 'Content-Type'
+CORS(app)
 
 model = BSM_Heroku_Inference()
 model.run()

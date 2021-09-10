@@ -22,4 +22,4 @@ def predictions():
         print(e)
 
 if __name__ == '__main__':
-    app.run(debug=True, host=heroku_url, port=heroku_port, threaded=False, use_reloader=False)
+    app.run(debug=True, host=host, port=port, threaded=False, use_reloader=False)

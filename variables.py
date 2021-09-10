@@ -13,7 +13,8 @@ json_dir = 'data/prices/'
 
 seed = 42
 heroku_url = 'https://book-search-management.herokuapp.com/books'
-heroku_port = 5000
+host = '0.0.0.0'
+port = 5000
 embedding_dim = 150
 num_epochs = 20
 batch_size = 32

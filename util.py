@@ -110,20 +110,29 @@ def load_category_df(df_response, prices, pred_category):
     return df_response, price_response
 
 def reform_prices(sample):
-    new_price_details = {}
-    price_list = []
-    websites = []
-    details = []
+    # new_price_details = {}
+    # price_list = []
+    # websites = []
+    # details = []
+    # for key, value in sample.items():
+    #     if set(['price', 'link']) == set(list(value.keys())):
+    #         value["price"] = value["price"].replace("$", "")
+    #         price_list.append(float(value["price"].strip()) if value["price"] != "NULL" else 0)
+    #         value["price"] = '$'+value["price"].strip()
+    #         websites.append(key)
+    #         details.append(value)
+    # price_list = np.array(price_list)
+    # price_order = np.argsort(price_list)
+
+    # for i in price_order:
+    #     new_price_details[websites[i]] = details[i]
+    # return new_price_details
+    new_price_details = []
     for key, value in sample.items():
         if set(['price', 'link']) == set(list(value.keys())):
             value["price"] = value["price"].replace("$", "")
-            price_list.append(float(value["price"].strip()) if value["price"] != "NULL" else 0)
-            value["price"] = '$'+value["price"].strip()
-            websites.append(key)
-            details.append(value)
-    price_list = np.array(price_list)
-    price_order = np.argsort(price_list)
-
-    for i in price_order:
-        new_price_details[websites[i]] = details[i]
+            value["price"] = float(value["price"].strip()) if value["price"] != "NULL" else 0
+            value["price"] = '$'+str(value["price"]).strip()
+            value["website"] = key.strip()
+            new_price_details.append(value)
     return new_price_details

@@ -13,13 +13,9 @@ model.run()
 @app.route("/books", methods=['GET','POST'])
 @cross_origin()
 def predictions():
-    try:
-        book_description = request.get_json(force=True)
-        response = model.predict_book(book_description)
-        return jsonify(response)
-
-    except Exception as e:
-        print(e)
+    book_description = request.get_json(force=True)
+    response = model.predict_book(book_description)
+    return jsonify(response)
 
 if __name__ == '__main__':
     app.run(debug=True, host=host, port=port, threaded=False, use_reloader=False)

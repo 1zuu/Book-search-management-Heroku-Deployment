@@ -134,6 +134,5 @@ def reform_prices(sample):
             value["price"] = float(value["price"].strip()) if value["price"] != "NULL" else 0
             value["price"] = '$'+str(value["price"]).strip()
         value["website"] = key.strip()
-        value["website"] = key.strip()
         new_price_details.append(value)
     return new_price_details

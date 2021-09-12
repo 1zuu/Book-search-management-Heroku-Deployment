@@ -117,7 +117,7 @@ def reform_prices(sample):
     for key, value in sample.items():
         if set(['price', 'link']) == set(list(value.keys())):
             value["price"] = value["price"].replace("$", "")
-            price_list.append(float(value["price"].strip()))
+            price_list.append(float(value["price"].strip()) if value["price"] != "NULL" else 0)
             value["price"] = '$'+value["price"].strip()
             websites.append(key)
             details.append(value)

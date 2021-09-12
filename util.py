@@ -79,6 +79,7 @@ def get_Data():
     '''
     df = pd.read_csv(data_path)
     df_response = df[['Category', 'Description', 'Book_title' ,'Author' ,'ISBN-10' ,'ISBN-13', 'Cover_link']] 
+    df_response = df_response.fillna('NULL')
     prices = load_json_data()
     return df_response, prices
 

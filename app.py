@@ -1,3 +1,4 @@
+import json
 from flask_cors import CORS, cross_origin
 from flask import Flask, request, jsonify
 from heroku_inference import BSM_Heroku_Inference
@@ -16,7 +17,7 @@ def predictions():
     try:
         book_description = request.get_json(force=True)
         response = model.predict_book(book_description)
-        return jsonify(response)
+        return json.dumps(response)
 
     except Exception as e:
         print(e)

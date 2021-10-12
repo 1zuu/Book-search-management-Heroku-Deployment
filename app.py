@@ -11,11 +11,11 @@ CORS(app)
 model = BSM_Heroku_Inference()
 model.run()
 
-@app.route("/books", methods=['GET','POST'])
+@app.route("/<filter>", methods=['GET','POST'])
 @cross_origin()
-def predictions():
+def predictions(filter):
     book_description = request.get_json(force=True)
-    response = model.predict_book(book_description)
+    response = model.predict_book(book_description, filter)
     return jsonify(response)
 
 if __name__ == '__main__':

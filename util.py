@@ -114,7 +114,34 @@ def load_category_df(df_response, prices, pred_category):
     return df_response, price_response
 
 def reform_prices(sample):
-    new_price_details = {}
+    # new_price_details = {}
+    # price_list = []
+    # websites = []
+    # details = []
+    # for key, value in sample.items():
+    #     if set(['price', 'link']) == set(list(value.keys())):
+    #         value["price"] = value["price"].replace("$", "")
+    #         value["price"] = value["price"].strip()
+    #         try:
+    #             if value["price"] == "NULL":
+    #                 value["price"] = 0
+    #             else:
+    #                 value["price"] = float(value["price"])
+    #             price_ = value["price"]
+    #             price_list.append(price_)
+    #             value["price"] = '$'+str(value["price"]).strip()
+    #             websites.append(key)
+    #             details.append(value)
+    #         except:
+    #             pass
+    # price_list = np.array(price_list)
+    # price_order = np.argsort(price_list)
+    # for i in price_order:
+    #     new_price_details[websites[i]] = details[i]
+    # return new_price_details
+    
+    price_details = []
+    new_price_details = []
     price_list = []
     websites = []
     details = []
@@ -130,15 +157,17 @@ def reform_prices(sample):
                 price_ = value["price"]
                 price_list.append(price_)
                 value["price"] = '$'+str(value["price"]).strip()
-                websites.append(key)
-                details.append(value)
+                value["website"] = key.strip()
+                price_details.append(value)
             except:
                 pass
     price_list = np.array(price_list)
     price_order = np.argsort(price_list)
     for i in price_order:
-        new_price_details[websites[i]] = details[i]
+        new_price_details.append(price_details[i])
     return new_price_details
+
+
     # new_price_details = []
     # for key, value in sample.items():
     #     if set(['price', 'link']) == set(list(value.keys())):

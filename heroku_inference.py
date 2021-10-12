@@ -90,6 +90,7 @@ class BSM_Heroku_Inference(object):
             book['cover_photo'] = df_top_match.iloc[i]['Cover_link'] if df_top_match.iloc[i]['Cover_link'] else None
             book['websites'] = reform_prices(price_top_match[i])
             books['{}'.format(i+1)] = book
+
         response_data.append(books)
         response_data.append({"category" : category})
         response_data.append({"type" : "book"})

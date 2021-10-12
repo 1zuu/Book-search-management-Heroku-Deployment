@@ -5,6 +5,7 @@ from heroku_inference import BSM_Heroku_Inference
 from variables import*
 
 app = Flask(__name__)
+app.config['JSON_SORT_KEYS'] = False
 CORS(app)
 
 model = BSM_Heroku_Inference()

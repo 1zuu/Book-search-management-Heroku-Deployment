@@ -70,6 +70,7 @@ def load_json_file(json_file):
 
 def load_json_data():
     json_files = os.listdir(json_dir)
+    json_files.sort(key=lambda f: int(re.sub('\D', '', f)))
     json_files = [os.path.join(json_dir, json_file) for json_file in json_files]
     return np.array([load_json_file(json_file) for json_file in json_files if json_file.endswith('.json')])
 
@@ -81,6 +82,7 @@ def get_Data():
     df_response = df[['Category', 'Description', 'Book_title' ,'Author' ,'ISBN-10' ,'ISBN-13', 'Cover_link']] 
     df_response = df_response.fillna('NULL')
     prices = load_json_data()
+    assert len(df_response) == len(prices), "Dataframe and Prices are not same size"
     return df_response, prices
 
 def tokenizer_save_and_load(tokenizer=None):
@@ -110,29 +112,34 @@ def load_category_df(df_response, prices, pred_category):
     return df_response, price_response
 
 def reform_prices(sample):
-    # new_price_details = {}
-    # price_list = []
-    # websites = []
-    # details = []
-    # for key, value in sample.items():
-    #     if set(['price', 'link']) == set(list(value.keys())):
-    #         value["price"] = value["price"].replace("$", "")
-    #         price_list.append(float(value["price"].strip()) if value["price"] != "NULL" else 0)
-    #         value["price"] = '$'+value["price"].strip()
-    #         websites.append(key)
-    #         details.append(value)
-    # price_list = np.array(price_list)
-    # price_order = np.argsort(price_list)
-
-    # for i in price_order:
-    #     new_price_details[websites[i]] = details[i]
-    # return new_price_details
-    new_price_details = []
+    new_price_details = {}
+    price_list = []
+    websites = []
+    details = []
     for key, value in sample.items():
         if set(['price', 'link']) == set(list(value.keys())):
             value["price"] = value["price"].replace("$", "")
-            value["price"] = value["price"].strip() if value["price"] != "NULL" else 0
-            value["price"] = '$'+ value["price"].strip()
-        value["website"] = key.strip()
-        new_price_details.append(value)
+            value["price"] = value["price"].strip()
+            if value["price"] == "NULL":
+                value["price"] = 0
+            else:
+                value["price"] = float(value["price"])
+            price_ = value["price"]
+            price_list.append(price_)
+            value["price"] = '$'+str(value["price"]).strip()
+            websites.append(key)
+            details.append(value)
+    price_list = np.array(price_list)
+    price_order = np.argsort(price_list)
+    for i in price_order:
+        new_price_details[websites[i]] = details[i]
     return new_price_details
+    # new_price_details = []
+    # for key, value in sample.items():
+    #     if set(['price', 'link']) == set(list(value.keys())):
+    #         value["price"] = value["price"].replace("$", "")
+    #         value["price"] = value["price"].strip() if value["price"] != "NULL" else 0
+    #         value["price"] = '$'+ value["price"].strip()
+    #     value["website"] = key.strip()
+    #     new_price_details.append(value)
+    # return new_price_details

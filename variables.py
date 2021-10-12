@@ -1,4 +1,4 @@
-max_length = 120
+max_length = 140
 trunc_type = 'post'
 padding = 'post'
 pad_token = '<pad>'

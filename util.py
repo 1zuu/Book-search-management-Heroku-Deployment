@@ -14,6 +14,8 @@ from nltk.tokenize import RegexpTokenizer
 
 import tensorflow as tf
 logging.getLogger('tensorflow').disabled = True
+from tensorflow.keras.models import load_model
+from tensorflow.keras.optimizers import Adam
 from tensorflow.keras.preprocessing.sequence import pad_sequences
 
 from variables import*
@@ -120,15 +122,18 @@ def reform_prices(sample):
         if set(['price', 'link']) == set(list(value.keys())):
             value["price"] = value["price"].replace("$", "")
             value["price"] = value["price"].strip()
-            if value["price"] == "NULL":
-                value["price"] = 0
-            else:
-                value["price"] = float(value["price"])
-            price_ = value["price"]
-            price_list.append(price_)
-            value["price"] = '$'+str(value["price"]).strip()
-            websites.append(key)
-            details.append(value)
+            try:
+                if value["price"] == "NULL":
+                    value["price"] = 0
+                else:
+                    value["price"] = float(value["price"])
+                price_ = value["price"]
+                price_list.append(price_)
+                value["price"] = '$'+str(value["price"]).strip()
+                websites.append(key)
+                details.append(value)
+            except:
+                pass
     price_list = np.array(price_list)
     price_order = np.argsort(price_list)
     for i in price_order:

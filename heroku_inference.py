@@ -45,9 +45,9 @@ class BSM_Heroku_Inference(object):
         return category
 
     def predict_category(self, description):
+        category = self.feature_model.predict(prediction_data(description))[0][0]
         processed_description = prediction_data(description).squeeze()
-        category, feature = self.TFliteInference(processed_description.reshape(1,max_length).astype(np.float32))
-
+        _, feature = self.TFliteInference(processed_description.reshape(1,max_length).astype(np.float32))
         category = np.argmax(category)
         category = self.get_category_from_label(category)
         return category, feature
@@ -62,6 +62,14 @@ class BSM_Heroku_Inference(object):
                     [self.TFliteInference(prediction_data(x).reshape(1,max_length).astype(np.float32))[1] for x in processed_descriptions])
 
         return features, df_response, price_response
+
+    def loaded_model(self): # Load and compile pretrained model
+        self.feature_model = load_model(model_weights)
+        self.feature_model.compile(
+                        loss='sparse_categorical_crossentropy', 
+                        optimizer=Adam(lr=learning_rate), 
+                        metrics=['accuracy']
+                        )
 
     def predict_book(self,request):
         description = request['description']
@@ -99,4 +107,5 @@ class BSM_Heroku_Inference(object):
         return response
 
     def run(self):
+        self.loaded_model()
         self.TFinterpreter()

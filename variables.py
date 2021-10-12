@@ -1,6 +1,6 @@
 max_length = 140
-trunc_type = 'post'
-padding = 'post'
+trunc_type = 'pre'
+padding = 'pre'
 pad_token = '<pad>'
 oov_tok = "<oov>"
 
